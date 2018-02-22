@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entity.Collegue;
+import dev.entity.Vote;
+import dev.entity.Vote.Action;
 import dev.repository.CollegueRepository;
+import dev.repository.VoteRepository;
 
 @RestController
 @RequestMapping("/collegues")
@@ -24,6 +27,9 @@ public class CollegueController {
 
 	@Autowired
 	CollegueRepository colleguesRepo;
+
+	@Autowired
+	VoteRepository voteRepo;
 
 	@GetMapping
 	public List<Collegue> listerCollegues() {
@@ -49,6 +55,7 @@ public class CollegueController {
 			col.setScore(0);
 
 			colleguesRepo.save(collegue);
+
 			return ResponseEntity.ok(this.colleguesRepo.findAll());
 
 		}
@@ -62,16 +69,23 @@ public class CollegueController {
 
 	{
 
+		Vote vote = new Vote();
 		Collegue collegueChoisie = colleguesRepo.findBynom(nom);
 
 		if (action.containsValue("aimer") == true) {
+
+			vote.setAction(Action.aimer);
+			vote.setCollegue(collegueChoisie);
+			voteRepo.save(vote);
 
 			collegueChoisie.setScore(collegueChoisie.getScore() + 10);
 			return ResponseEntity.ok(colleguesRepo.save(collegueChoisie));
 		}
 
 		if (action.containsValue("deteste") == true) {
-
+			vote.setAction(Action.detester);
+			vote.setCollegue(collegueChoisie);
+			voteRepo.save(vote);
 			collegueChoisie.setScore(collegueChoisie.getScore() - 10);
 			return ResponseEntity.ok(colleguesRepo.save(collegueChoisie));
 		}

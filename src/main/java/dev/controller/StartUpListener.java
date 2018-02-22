@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import dev.entity.Collegue;
+import dev.entity.Commentaire;
 import dev.entity.Vote;
 import dev.entity.Vote.Action;
 import dev.repository.CollegueRepository;
+import dev.repository.CommentaireRepository;
 import dev.repository.VoteRepository;
 
 @Component
@@ -20,6 +22,9 @@ public class StartUpListener {
 
 	@Autowired
 	VoteRepository voteRepo;
+
+	@Autowired
+	CommentaireRepository comRepo;
 
 	@EventListener(ContextRefreshedEvent.class)
 	@Transactional
@@ -61,6 +66,16 @@ public class StartUpListener {
 		vote1.setCollegue(collegue5);
 		vote1.setAction(Action.detester);
 		voteRepo.save(vote1);
+
+		Commentaire com1 = new Commentaire();
+		com1.setCommentaire(collegue5.getNom() + " est une grosse patate");
+		com1.setCollegue(collegue5);
+		comRepo.save(com1);
+
+		Commentaire com2 = new Commentaire();
+		com2.setCollegue(collegue);
+		com2.setCommentaire(collegue.getNom() + " est super cool !");
+		comRepo.save(com2);
 
 	}
 }

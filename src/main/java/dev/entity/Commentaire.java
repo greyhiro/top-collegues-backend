@@ -1,6 +1,5 @@
 package dev.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,30 +9,38 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "vote")
-public class Vote {
+@Table
+public class Commentaire {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	private int id;
+	private String commentaire;
 
 	@ManyToOne
-	@JoinColumn(name = "Collegue_ID")
+	@JoinColumn(name = "id_Collegue")
 	private Collegue collegue;
 
-	@Column(name = "action")
-	private Action action;
+	/**
+	 * @return the commentaire
+	 */
+	public String getCommentaire() {
+		return commentaire;
+	}
 
-	// vote aimer =0 vote detester = 1 en bdd
-	public enum Action {
-		aimer, detester
+	/**
+	 * @param commentaire
+	 *            the commentaire to set
+	 */
+	public void setCommentaire(String commentaire) {
+		this.commentaire = commentaire;
 	}
 
 	/**
 	 * @return the id
 	 */
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	/**
@@ -41,7 +48,7 @@ public class Vote {
 	 *            the id to set
 	 */
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	/**
@@ -60,27 +67,8 @@ public class Vote {
 	}
 
 	/**
-	 * @return the action
-	 */
-	public Action getAction() {
-		return action;
-	}
-
-	/**
-	 * @param action
-	 *            the action to set
-	 */
-	public void setAction(Action action) {
-		this.action = action;
-	}
-
-	/**
-	 * @return the aimer
-	 */
-
-	/**
-	 * @param detester
-	 *            the detester to set
+	 * @param collegue
+	 *            the collegue to set
 	 */
 
 }

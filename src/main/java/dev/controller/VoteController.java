@@ -20,7 +20,7 @@ public class VoteController {
 	VoteRepository voteRepo;
 
 	@GetMapping
-	public List<Vote> listerCollegues() {
+	public List<Vote> listerCommentaire() {
 		return this.voteRepo.findAll();
 	}
 }
